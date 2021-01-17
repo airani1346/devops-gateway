@@ -2,6 +2,12 @@
 - hosts: localhost  # put localhost.  We are processing against aws
   connection: local  # put local.  We are processing against aws
   tasks:
+  - name: Make sure pymysql is present
+    become: true # needed if the other tasks are not played as root
+    pip:
+      name: pymysql
+      state: present
+      
   - name: Set MySQL root Password
     mysql_user:
       login_host: 'localhost'
