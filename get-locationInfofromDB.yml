@@ -1,8 +1,9 @@
 ---
 - hosts: all
-  gather_facts: False  # don't gather facts against localhost
+  gather_facts: False
+  
   tasks:
-  - name: Get Network info 
+  - name: get Location Network Info from DB
     mysql_query:
       login_db: fwinstall
       query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex FROM net where locationNr="{{LocationNr}}"
