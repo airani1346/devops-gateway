@@ -2,11 +2,11 @@
 - hosts: all
   gather_facts: False  # don't gather facts against localhost
   tasks:
-  - name: Make sure pymysql is present
-    become: true # needed if the other tasks are not played as root
-    pip:
-      name: pymysql
-      state: present
+#  - name: Make sure pymysql is present
+#    become: true # needed if the other tasks are not played as root
+#    pip:
+#      name: pymysql
+#      state: present
       
   - name: Set MySQL root Password
     mysql_user:
