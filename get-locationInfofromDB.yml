@@ -1,13 +1,11 @@
   
 ---
-- hosts: {{mySQLServer}}  # put localhost.  We are processing against aws
-  tasks:
-  - name: connect mysql server
-  
-  - name: Select query to db acme with positional arguments
-    community.mysql.mysql_query:
-      login_db: fw-install
-      query: SELECT * FROM acme WHERE id = %s AND story = %s
-      positional_args:
-      - 1
-      - test
+tasks:
+  - name: Set MySQL root Password
+    mysql_user:
+      login_host: 'localhost'
+      login_user: 'adminer'
+      login_password: 'Kamilletee1'
+      name: 'root1'
+      password: '{{ mysql_pass }}'
+      state: present
