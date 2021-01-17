@@ -21,11 +21,9 @@
 # net: ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex
 # routes: ccn,locationNr,ipNet,nextHop,description
 
-  - name: get Network Data for specified location
-    community.mysql.mysql_query:
+  - name: Get Network info 
+    mysql_query:
       login_db: fwinstall
-      login_user: "{{login_user}}"
-      login_password: "{{login_password}}"
       query: ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex FROM net where locationNr={{LocationNr}}
     register: sqlResult
     
