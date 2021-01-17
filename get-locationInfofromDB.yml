@@ -8,9 +8,7 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"      
-      query: select * FROM net where locationNr=%s
-      positional_args:
-      - {{LocationNr}}
+      query: select * FROM net where locationNr={{LocationNr}}
     register: sqlResult
     
   - debug:
