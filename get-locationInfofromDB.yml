@@ -5,7 +5,7 @@
   - name: Get Network info 
     mysql_query:
       login_db: fwinstall
-      query: ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex FROM net where locationNr={{LocationNr}}
+      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex FROM net where locationNr="{{LocationNr}}"
     register: sqlResult
     
   - debug:
