@@ -1,9 +1,13 @@
+  
 ---
-tasks
-- name: Select query to db acme with positional arguments
-  community.mysql.mysql_query:
-    login_db: acme
-    query: SELECT * FROM acme WHERE id = %s AND story = %s
-    positional_args:
-    - 1
-    - test
+- hosts: {{mySQLServer}}  # put localhost.  We are processing against aws
+  tasks:
+  - name: connect mysql server
+  
+  - name: Select query to db acme with positional arguments
+    community.mysql.mysql_query:
+      login_db: fw-install
+      query: SELECT * FROM acme WHERE id = %s AND story = %s
+      positional_args:
+      - 1
+      - test
