@@ -10,7 +10,7 @@
       
   - name: Set MySQL root Password
     mysql_user:
-      login_host: 'localhost'
+      login_host: mysqlServer
       login_user: 'adminer'
       login_password: 'Kamilletee1'
       name: 'root1'
