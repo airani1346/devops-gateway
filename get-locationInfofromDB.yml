@@ -9,9 +9,8 @@
 #      state: present
       
   - name: Set MySQL root Password
-    host: mysqlServer
     mysql_user:
-      login_host: mysqlServer
+      host: mysqlServer
       login_user: 'adminer'
       login_password: 'Kamilletee1'
       name: 'root1'
