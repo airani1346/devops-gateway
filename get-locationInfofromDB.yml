@@ -3,13 +3,13 @@
   gather_facts: False  # don't gather facts against localhost
   tasks:
   - name: get Data
-    mysql_query:
+    community.mysql.mysql_query:
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"      
       query: select * FROM net where locationNr={{LocationNr}}
     register: sqlResult
-#    
-#  - debug:
-#      msg: "{{ item.vlan }} is located in {{ item.interface }}"
-#    with_items: "{{ sqlResult.results }}"
+    
+  - debug:
+      msg: "{{ item.vlan }} is located in {{ item.interface }}"
+    with_items: "{{ sqlResult.results }}"
