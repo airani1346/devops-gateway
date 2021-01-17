@@ -1,5 +1,6 @@
-  
 ---
+- hosts: localhost  # put localhost.  We are processing against aws
+  connection: local  # put local.  We are processing against aws
   tasks:
   - name: Set MySQL root Password
     mysql_user:
