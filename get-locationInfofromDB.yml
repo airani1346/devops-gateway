@@ -1,6 +1,6 @@
   
 ---
-tasks:
+  tasks:
   - name: Set MySQL root Password
     mysql_user:
       login_host: 'localhost'
