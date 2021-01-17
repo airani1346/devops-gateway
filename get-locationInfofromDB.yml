@@ -8,7 +8,17 @@
 #      name: pymysql
 #      state: present
       
-  - name: Set MySQL root Password
+#  - name: Set MySQL root Password
+#    mysql_user:
+#      login_user: "{{login_user}}"
+#      login_password: "{{login_password}}"
+#      name: 'root1'
+#      password: "{{ User_passwd }}"
+#      state: present
+
+# profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP
+
+  - name: get_location Networks
     mysql_user:
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
