@@ -2,25 +2,6 @@
 - hosts: all
   gather_facts: False  # don't gather facts against localhost
   tasks:
-
-#  - name: Make sure pymysql is present
-#    become: true # needed if the other tasks are not played as root
-#    pip:
-#      name: pymysql
-#      state: present   
-
-#  - name: Set MySQL root Password
-#    mysql_user:
-#      login_user: "{{login_user}}"
-#      login_password: "{{login_password}}"
-#      name: 'root1'
-#      password: "{{ User_passwd }}"
-#      state: present
-# cma: profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP
-# location: cty,ccn,locationNr,description,baseIP,baseIP1,lsmProfile,profileGroup,numberofFWs,nameFW1,nameFW2,nameCL
-# net: ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex
-# routes: ccn,locationNr,ipNet,nextHop,description
-
   - name: Get Network info 
     mysql_query:
       login_db: fwinstall
