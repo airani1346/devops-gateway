@@ -1,13 +1,10 @@
 ---
-collections:
-- community.mysql
-- check_point.mgmt
-- check_point.gaia
-
-- name: collect Location Information from DB
-  hosts: all
+- hosts: all
   collections:
-
+  - community.mysql
+  - check_point.mgmt
+  - check_point.gaia
+  
   tasks:      
   - name: Select query
     mysql_query:
