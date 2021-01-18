@@ -4,7 +4,7 @@
   tasks:      
     
   - name: Select query
-    ansible_collections.community.mysql.mysql_query:
+    mysql_query:
       login_db: fwinstall
       login_user: 'adminer'
       login_password: 'Kamilletee1'
