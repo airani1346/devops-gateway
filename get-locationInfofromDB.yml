@@ -1,13 +1,11 @@
 ---
 - hosts: localhost  # put localhost.  We are processing against aws
-  connection: local
-  become: yes
-  become_user: 'root'
-  
   gather_facts: True  # don't gather facts against localhost
   tasks:
   - name: Install the MySQL-python through pip
-    pip: name=MySQL-python
+    apt: name=python-mysqldb state=installed
+    become: yes
+    become_method: sudo
       
 #  - name: Select query
 #    community.mysql.mysql_query:
