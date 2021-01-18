@@ -1,19 +1,19 @@
 ---
- gather_facts: True  # don't gather facts against localhost
- collections:
-   - community.mysql
-   - check_point.mgmt
-   - check_point.gaia
+  gather_facts: True  # don't gather facts against localhost
+  collections:
+    - community.mysql
+    - check_point.mgmt
+    - check_point.gaia
 
- - name: Select query
-   mysql_query:
-     login_host: MySQLServer
-     login_db: fwinstall
-     login_user: "{{login_user}}"
-     login_password: "{{login_password}}"
-     query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
-   when: ansible_hostname == 'MySQLServer'
-   register: sqlResult
+  - name: Select query
+    mysql_query:
+      login_host: MySQLServer
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
+    when: ansible_hostname == 'MySQLServer'
+    register: sqlResult
 
 #- hosts: all
 #  gather_facts: True  # don't gather facts against localhost
