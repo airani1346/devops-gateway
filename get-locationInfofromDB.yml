@@ -11,9 +11,9 @@
   - name: Select query
     mysql_query:
       login_db: fwinstall
-      login_user: 'adminer'
-      login_password: 'Kamilletee1'
-      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr='005'
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
     register: sqlResult
 
 #  - debug:
@@ -21,4 +21,4 @@
 #    with_items: "{{sqlResult.query_result}}"
 
   - debug:
-      var: "{{sqlResult}}"
+      var: sqlResult
