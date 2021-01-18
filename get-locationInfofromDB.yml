@@ -12,7 +12,6 @@
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
       query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
-    when: ansible_hostname == 'MySQLServer'
     register: sqlResult
   
   - debug:
