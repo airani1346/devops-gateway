@@ -1,14 +1,14 @@
 ---
+collections:
+- community.mysql
+- check_point.mgmt
+- check_point.gaia
+
 - name: collect Location Information from DB
   hosts: all
-  gather_facts: True  # don't gather facts against localhost
-
   collections:
-    - community.mysql
-    - check_point.mgmt
-    - check_point.gaia
 
-#  tasks:      
+  tasks:      
   - name: Select query
     mysql_query:
       login_host: MySQLServer
