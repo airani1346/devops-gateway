@@ -4,15 +4,9 @@
   
   tasks:      
   - name: Install the MySQL-python through pip
-    apt: 
+    pip: 
       name: python-mysqldb 
       state: present
-      update_cache: yes
-      install_recommends: no
-      upgrade: full
-
-    become: yes
-    become_method: sudo
       
 #  - name: Select query
 #    community.mysql.mysql_query:
