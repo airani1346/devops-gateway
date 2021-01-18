@@ -4,11 +4,9 @@
   tasks:
   - name: Install the MySQL-python through pip
     pip:
-      name: "{{ item }}"
-      state: forcereinstall
-    with_items:
-      - pip
-      - MySQL-python
+      name: ['pip', 'MySQL-python']
+      state: present
+    sudo: yes
       
 #  - name: Select query
 #    community.mysql.mysql_query:
