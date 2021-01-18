@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: Mysql
   collections:
   - community.mysql
   - check_point.mgmt
@@ -8,7 +8,6 @@
   tasks:      
   - name: Select query
     mysql_query:
-      login_host: MySQLServer
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
