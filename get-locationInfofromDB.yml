@@ -3,19 +3,15 @@
   gather_facts: True  # don't gather facts against localhost
   
   tasks:      
-  - name: Install the MySQL-python through pip
-    pip: 
-      name: PyMySQL
-      state: latest
-      
-#  - name: Select query
-#    community.mysql.mysql_query:
-#      login_db: fwinstall
-#      login_user: 'adminer'
-#      login_password: 'Kamilletee1'
-#      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr='005'
-#    register: sqlResult
-#
-#  - debug:
-#      msg: "{{ item.dynObj }}"
-#    with_items: "{{sqlResult.query_result}}"
+    
+  - name: Select query
+    community.mysql.mysql_query:
+      login_db: fwinstall
+      login_user: 'adminer'
+      login_password: 'Kamilletee1'
+      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr='005'
+    register: sqlResult
+
+  - debug:
+      msg: "{{ item.dynObj }}"
+    with_items: "{{sqlResult.query_result}}"
