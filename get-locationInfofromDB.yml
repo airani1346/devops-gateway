@@ -22,5 +22,5 @@
 #      msg: "{{ item.dynObj }}"
 #    with_items: "{{sqlResult.query_result}}"
 
-  - debug:
-      var: sqlResult
+ - debug:
+     var: sqlResult
