@@ -1,13 +1,10 @@
 ---
 - hosts: localhost  # put localhost.  We are processing against aws
   gather_facts: True  # don't gather facts against localhost
-  collections:
-    - community.mysql
-    
   tasks:      
     
   - name: Select query
-    community.mysql.mysql_query:
+    ansible_collections.community.mysql.mysql_query:
       login_db: fwinstall
       login_user: 'adminer'
       login_password: 'Kamilletee1'
