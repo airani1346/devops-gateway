@@ -1,5 +1,5 @@
 ---
-- hosts: MySQLServer
+- hosts: Inv_MsqlServer
   gather_facts: True  # don't gather facts against localhost
   collections:
     - community.mysql
