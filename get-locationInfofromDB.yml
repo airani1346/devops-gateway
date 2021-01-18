@@ -21,4 +21,4 @@
 #    with_items: "{{sqlResult.query_result}}"
 
   - debug:
-      var: {{sqlResult.query_result}}
+      var: "{{sqlResult}}"
