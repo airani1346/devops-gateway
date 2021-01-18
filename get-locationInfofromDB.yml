@@ -9,8 +9,8 @@
   tasks:      
     
   - name: Select query
-    hosts: all
     mysql_query:
+      login_host: MySQLServer
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
