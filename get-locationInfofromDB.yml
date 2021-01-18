@@ -5,8 +5,7 @@
   tasks:      
   - name: Install the MySQL-python through pip
     pip: 
-      name: pip
-      executable: pip3
+      name: PyMySQL
       state: latest
       
 #  - name: Select query
