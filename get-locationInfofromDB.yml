@@ -5,8 +5,9 @@
   tasks:      
   - name: Install the MySQL-python through pip
     pip: 
-      name: MySQLdb
-      state: present
+      name: pip
+      executable: pip3
+      state: latest
       
 #  - name: Select query
 #    community.mysql.mysql_query:
