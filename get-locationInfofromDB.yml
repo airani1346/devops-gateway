@@ -14,7 +14,10 @@
       query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
     register: sqlResult
   
+  - set_fact:
+    sqlResults: sqlResult
+    
   - debug:
       msg: "{{ item.dynObj }}"
-    with_items: "{{sqlResult.query_result}}"
+    with_items: "{{sqlResults.query_result}}"
 
