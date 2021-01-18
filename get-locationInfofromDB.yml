@@ -1,5 +1,9 @@
 ---
  - name: Select query
+   collections:
+     - community.mysql
+     - check_point.mgmt
+     - check_point.gaia
    mysql_query:
      login_host: MySQLServer
      login_db: fwinstall
