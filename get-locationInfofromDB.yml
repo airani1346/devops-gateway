@@ -83,8 +83,4 @@
   - name: stats Routes
     set_fact:
       RoutesSqlResults: "{{RoutesResult}}"
-        
-  - debug:
-      msg: "{{ item.netIP }}"
-    with_items: "{{ NetsqlResults.query_result}}"
  
