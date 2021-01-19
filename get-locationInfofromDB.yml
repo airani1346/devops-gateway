@@ -79,5 +79,5 @@
       RoutesSqlResults: RoutesResult     
         
   - debug:
-      msg: "{{item}}"
-    with_items: "{{FW2CmaSqlResults}}"
+      msg: "my result: {{item}}"
+    with_items: "{{RoutesResult}}"
