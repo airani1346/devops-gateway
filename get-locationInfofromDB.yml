@@ -13,7 +13,10 @@
       login_password: "{{login_password}}"
       query: select cty,ccn,locationNr,description,baseIP,baseIP1,lsmProfile,profileGroup,numberofFWs,nameFW1,nameFW2,nameCL from location where locationNr="{{LocationNr}}"
     register: LocationResult
- 
+
+  - debug:
+      var: LocationResult
+      
   - name: Get Data from CMA Table for FW1
     mysql_query:
       login_db: fwinstall
