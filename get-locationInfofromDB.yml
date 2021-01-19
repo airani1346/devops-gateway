@@ -14,8 +14,10 @@
       query: select cty,ccn,locationNr,description,baseIP,baseIP1,lsmProfile,profileGroup,numberofFWs,nameFW1,nameFW2,nameCL from location where locationNr="{{LocationNr}}"
     register: LocationResult
     
-  - set_fact:
-      LocationSqlResults: LocationResult
+  - name: stats Location Result
+      set_stats:
+        data:
+          LocationSqlResults: LocationResult
 
   - name: Get Data from CMA Table for FW1
     mysql_query:
@@ -27,8 +29,10 @@
     with_items: "{{LocationResult.query_result}}"
     register: Fw1CmaResult
 
-  - set_fact:
-      FW1CmaSqlResults: Fw1CmaResult
+  - name: stats Fw1
+      set_stats:
+        data:
+          FW1CmaSqlResults: Fw1CmaResult
 
   - name: Get Data from CMA Table for FW2
     mysql_query:
@@ -40,8 +44,10 @@
     with_items: "{{LocationResult.query_result}}"
     register: Fw2CmaResult
 
-  - set_fact:
-      FW2CmaSqlResults: Fw2CmaResult
+  - name: stats Fw2
+      set_stats:
+        data:
+          FW2CmaSqlResults: Fw2CmaResult
 
   - name: Get Data from CMA Table for Cluster
     mysql_query:
@@ -53,8 +59,10 @@
     with_items: "{{LocationResult.query_result}}"
     register: ClusterCmaResult
 
-  - set_fact:
-      ClusterCmaSqlResults: ClusterCmaResult
+  - name: stats Cluster
+      set_stats:
+        data:
+          ClusterCmaSqlResults: ClusterCmaResult
 
   - name: Get Data from Net Table
     mysql_query:
@@ -64,8 +72,10 @@
       query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
     register: NetResult
 
-  - set_fact:
-      NetsqlResults: NetResult
+  - name: stats Net SQL
+      set_stats:
+        data:
+          NetsqlResults: NetResult
 
   - name: Get Data from Net Table
     mysql_query:
@@ -75,8 +85,10 @@
       query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
     register: RoutesResult
 
-  - set_fact:
-      RoutesSqlResults: RoutesResult     
+  - name: stats Routes
+      set_stats:
+        data:
+          RoutesSqlResults: RoutesResult     
         
   - debug:
       msg: "my result: {{item}}"
