@@ -6,7 +6,7 @@
   - check_point.mgmt
   - check_point.gaia
   
-  tasks:      
+  tasks:
   - name: Get Data from Location Table
     mysql_query:
       login_db: fwinstall
@@ -60,13 +60,33 @@
       login_password: "{{login_password}}"
       query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
     register: RoutesResult
-    
+
   - name: stats Location Result
     local_action:
       set_fact:
         LocationSqlResults: "{{LocationResult}}"
+        
+  - name: stats Location Result
+    local_action:
+      set_fact:
         FW1CmaSqlResults: "{{Fw1CmaResult}}"
+        
+  - name: stats Location Result
+    local_action:
+      set_fact:
         FW2CmaSqlResults: "{{Fw2CmaResult}}"
+        
+  - name: stats Location Result
+    local_action:
+      set_fact:
         ClusterCmaSqlResults: "{{ClusterCmaResult}}"
+        
+  - name: stats Location Result
+    local_action:
+      set_fact:
         NetsqlResults: "{{NetResult}}"
+
+  - name: stats Location Result
+    local_action:
+      set_fact:
         RoutesSqlResults: "{{RoutesResult}}"
