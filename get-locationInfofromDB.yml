@@ -92,5 +92,5 @@
         
   - debug:
       msg: "{{ item.nextHop }}"
-    with_items: "{{ (RoutesSqlResults.stdout|from_json).query_result}}"
-    
+    with_items: "{{ RoutesSqlResults.query_result}}"
+ 
