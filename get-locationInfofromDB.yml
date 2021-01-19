@@ -10,7 +10,7 @@
   tasks:
   - name: Get Data from Location Table
     mysql_query:
-      login_host: {{MysqlServer}}
+      login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
@@ -19,7 +19,7 @@
     
   - name: Get Data from CMA Table for FW1
     mysql_query:
-      login_host: {{MysqlServer}}
+      login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
@@ -30,7 +30,7 @@
 
   - name: Get Data from CMA Table for FW2
     mysql_query:
-      login_host: {{MysqlServer}}
+      login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
@@ -41,7 +41,7 @@
 
   - name: Get Data from CMA Table for Cluster
     mysql_query:
-      login_host: {{MysqlServer}}
+      login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
@@ -52,7 +52,7 @@
 
   - name: Get Data from Net Table
     mysql_query:
-      login_host: {{MysqlServer}}
+      login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
@@ -61,7 +61,7 @@
 
   - name: Get Data from Net Table
     mysql_query:
-      login_host: {{MysqlServer}}
+      login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
