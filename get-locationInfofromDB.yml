@@ -60,9 +60,9 @@
       login_password: "{{login_password}}"
       query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
     register: RoutesResult
-
-- hosts: localhost
+    
   - name: stats Location Result
+    hosts: localhost
     set_fact:
       LocationSqlResults: "{{LocationResult}}"
       FW1CmaSqlResults: "{{Fw1CmaResult}}"
