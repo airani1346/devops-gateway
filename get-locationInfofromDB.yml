@@ -91,5 +91,4 @@
         RoutesSqlResults: "{{RoutesResult}}"
         
   - debug:
-      msg: "my result: {{item}}"
-    with_items: "{{RoutesResult}}"
+      var: RoutesResult
