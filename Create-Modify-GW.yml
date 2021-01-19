@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-#  gather_facts: False  
+  gather_facts: False  
   collections:
   - check_point.mgmt
   - check_point.gaia
@@ -8,4 +8,4 @@
   tasks:      
   - debug:
       msg: "{{ item.netIP }}"
-    with_items: "{{ NetsqlResults.query_result}}"
+    with_items: "{{ NetResult.query_result}}"
