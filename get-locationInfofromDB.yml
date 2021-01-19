@@ -19,7 +19,7 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result[0].nameFW1}}"
+      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result.nameFW1}}"
     register: Fw1CmaResult
 
   - debug:
@@ -30,7 +30,7 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result[0].nameFW2}}"
+      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result.nameFW2}}"
     register: Fw2CmaResult
 
   - name: Get Data from CMA Table for Cluster
@@ -38,7 +38,7 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result[0].nameCL}}"
+      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result.nameCL}}"
     register: ClusterCmaResult
 
   - name: Get Data from Net Table
