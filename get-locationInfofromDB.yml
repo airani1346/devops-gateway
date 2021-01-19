@@ -63,6 +63,7 @@
 
   - name: stats Location Result
     connection: local
+    delegate_to: localhost
     set_fact:
       LocationSqlResults: "{{LocationResult}}"
       FW1CmaSqlResults: "{{Fw1CmaResult}}"
@@ -70,4 +71,3 @@
       ClusterCmaSqlResults: "{{ClusterCmaResult}}"
       NetsqlResults: "{{NetResult}}"
       RoutesSqlResults: "{{RoutesResult}}"
-    delegate_to: localhost
