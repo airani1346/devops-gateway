@@ -1,6 +1,6 @@
 ---
 - hosts: localhost
-  gather_facts: False  
+#  gather_facts: False  
   collections:
   - check_point.mgmt
   - check_point.gaia
