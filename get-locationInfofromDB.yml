@@ -62,12 +62,12 @@
     register: RoutesResult
 
   - name: stats Location Result
-    set_fact:
-      LocationSqlResults: "{{LocationResult}}"
-      FW1CmaSqlResults: "{{Fw1CmaResult}}"
-      FW2CmaSqlResults: "{{Fw2CmaResult}}"
-      ClusterCmaSqlResults: "{{ClusterCmaResult}}"
-      NetsqlResults: "{{NetResult}}"
-      RoutesSqlResults: "{{RoutesResult}}"
-    delegate_to: 127.0.0.1
+    local_action:
+      module: set_fact
+        LocationSqlResults: "{{LocationResult}}"
+        FW1CmaSqlResults: "{{Fw1CmaResult}}"
+        FW2CmaSqlResults: "{{Fw2CmaResult}}"
+        ClusterCmaSqlResults: "{{ClusterCmaResult}}"
+        NetsqlResults: "{{NetResult}}"
+        RoutesSqlResults: "{{RoutesResult}}"
 
