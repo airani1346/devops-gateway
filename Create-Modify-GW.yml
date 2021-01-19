@@ -1,0 +1,10 @@
+---
+- hosts: CPMgmtServer
+  collections:
+  - check_point.mgmt
+  - check_point.gaia
+  
+  tasks:      
+  - debug:
+      msg: "{{ item.netIP }}"
+    with_items: "{{ NetsqlResults.query_result}}"
