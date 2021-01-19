@@ -91,6 +91,6 @@
         RoutesSqlResults: "{{RoutesResult}}"
         
   - debug:
-#      msg: "{{ item.nextHop }}"
-#    with_items: "{{RoutesSqlResults.query_result}}"
-      var: RoutesSqlResults    
+      msg: "{{ item.nextHop }}"
+    with_items: "{{ (RoutesSqlResults.stdout|from_json).query_result}}"
+    
