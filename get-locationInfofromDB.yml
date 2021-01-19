@@ -61,6 +61,10 @@
       query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
     register: RoutesResult
 
+- hosts: localhost
+  gather_facts: True
+
+  tasks:
   - name: store facts into global Variables
     set_fact:
       LocationSqlResults: "{{LocationResult}}"
@@ -69,4 +73,3 @@
       ClusterCmaSqlResults: "{{ClusterCmaResult}}"
       NetsqlResults: "{{NetResult}}"
       RoutesSqlResults: "{{RoutesResult}}"
-    delegate_to: localhost
