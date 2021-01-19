@@ -62,11 +62,11 @@
     register: RoutesResult
     
   - name: stats Location Result
-    hosts: localhost
-    set_fact:
-      LocationSqlResults: "{{LocationResult}}"
-      FW1CmaSqlResults: "{{Fw1CmaResult}}"
-      FW2CmaSqlResults: "{{Fw2CmaResult}}"
-      ClusterCmaSqlResults: "{{ClusterCmaResult}}"
-      NetsqlResults: "{{NetResult}}"
-      RoutesSqlResults: "{{RoutesResult}}"
+    local_action:
+      set_fact:
+        LocationSqlResults: "{{LocationResult}}"
+        FW1CmaSqlResults: "{{Fw1CmaResult}}"
+        FW2CmaSqlResults: "{{Fw2CmaResult}}"
+        ClusterCmaSqlResults: "{{ClusterCmaResult}}"
+        NetsqlResults: "{{NetResult}}"
+        RoutesSqlResults: "{{RoutesResult}}"
