@@ -85,6 +85,6 @@
       RoutesSqlResults: "{{RoutesResult}}"
         
   - debug:
-      msg: "{{ item.nextHop }}"
+      msg: "{{ item.netIP }}"
     with_items: "{{ NetsqlResults.query_result}}"
  
