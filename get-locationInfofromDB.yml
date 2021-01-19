@@ -1,5 +1,7 @@
 ---
 - hosts: Mysql
+  connection: local  
+  gather_facts: False
   collections:
   - community.mysql
   - check_point.mgmt
