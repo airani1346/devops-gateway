@@ -15,10 +15,6 @@
       query: select cty,ccn,locationNr,description,baseIP,baseIP1,lsmProfile,profileGroup,numberofFWs,nameFW1,nameFW2,nameCL from location where locationNr="{{LocationNr}}"
     register: LocationResult
     
-  - name: stats Location Result
-    set_fact:
-      LocationSqlResults: "{{LocationResult}}"
-
   - name: Get Data from CMA Table for FW1
     mysql_query:
       login_db: fwinstall
@@ -28,10 +24,6 @@
              from cma where Gateway='"{{item.nameFW1}}"'
     with_items: "{{LocationResult.query_result}}"
     register: Fw1CmaResult
-
-  - name: stats Fw1
-    set_fact:
-      FW1CmaSqlResults: "{{Fw1CmaResult}}"
 
   - name: Get Data from CMA Table for FW2
     mysql_query:
@@ -43,10 +35,6 @@
     with_items: "{{LocationResult.query_result}}"
     register: Fw2CmaResult
 
-  - name: stats Fw2
-    set_fact:
-      FW2CmaSqlResults: "{{Fw2CmaResult}}"
-
   - name: Get Data from CMA Table for Cluster
     mysql_query:
       login_db: fwinstall
@@ -57,10 +45,6 @@
     with_items: "{{LocationResult.query_result}}"
     register: ClusterCmaResult
 
-  - name: stats Cluster
-    set_fact:
-      ClusterCmaSqlResults: "{{ClusterCmaResult}}"
-
   - name: Get Data from Net Table
     mysql_query:
       login_db: fwinstall
@@ -68,10 +52,6 @@
       login_password: "{{login_password}}"
       query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
     register: NetResult
-
-  - name: stats Net SQL
-    set_fact:
-      NetsqlResults: "{{NetResult}}"
 
   - name: Get Data from Net Table
     mysql_query:
@@ -81,7 +61,12 @@
       query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
     register: RoutesResult
 
-  - name: stats Routes
+- hosts: localhost
+  - name: stats Location Result
     set_fact:
+      LocationSqlResults: "{{LocationResult}}"
+      FW1CmaSqlResults: "{{Fw1CmaResult}}"
+      FW2CmaSqlResults: "{{Fw2CmaResult}}"
+      ClusterCmaSqlResults: "{{ClusterCmaResult}}"
+      NetsqlResults: "{{NetResult}}"
       RoutesSqlResults: "{{RoutesResult}}"
- 
