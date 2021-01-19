@@ -24,9 +24,6 @@
     with_items: "{{LocationResult.query_result}}"
     register: Fw1CmaResult
 
-  - debug:
-      msg: "{{LocationResult.query_result.'nameFW1'}}"
-
   - name: Get Data from CMA Table for FW2
     mysql_query:
       login_db: fwinstall
