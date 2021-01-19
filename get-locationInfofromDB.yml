@@ -32,7 +32,7 @@
   - name: stats Fw1
     set_stats:
       data:
-        FW1CmaSqlResults: "{{Fw1CmaResult"}}
+        FW1CmaSqlResults: "{{Fw1CmaResult}}"
 
   - name: Get Data from CMA Table for FW2
     mysql_query:
