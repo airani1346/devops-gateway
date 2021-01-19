@@ -1,6 +1,6 @@
 ---
 - hosts: Mysql
-  gather_facts: False
+#  gather_facts: False
   collections:
   - community.mysql
   - check_point.mgmt
@@ -61,9 +61,7 @@
       query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
     register: RoutesResult
 
-  - name: stats Location Result
-    connection: local
-    delegate_to: localhost
+  - name: store facts into global Variables
     set_fact:
       LocationSqlResults: "{{LocationResult}}"
       FW1CmaSqlResults: "{{Fw1CmaResult}}"
@@ -71,3 +69,4 @@
       ClusterCmaSqlResults: "{{ClusterCmaResult}}"
       NetsqlResults: "{{NetResult}}"
       RoutesSqlResults: "{{RoutesResult}}"
+    delegate_to: localhost
