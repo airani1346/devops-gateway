@@ -55,12 +55,12 @@
     register: RoutesResult
 
   - set_fact:
-    NetsqlResults: NetResult
-    LocationSqlResults: LocationResult
-    FW1CmaSqlResults: Fw1CmaResult
-    FW2CmaSqlResults: Fw2CmaResult
-    ClusterCmaSqlResults: ClusterCmaResult
-    RoutesSqlResults: RoutesResult
+      NetsqlResults: NetResult
+      LocationSqlResults: LocationResult
+      FW1CmaSqlResults: Fw1CmaResult
+      FW2CmaSqlResults: Fw2CmaResult
+      ClusterCmaSqlResults: ClusterCmaResult
+      RoutesSqlResults: RoutesResult
         
   - debug:
       msg: "{{ item.primaryCmaIP }}"
