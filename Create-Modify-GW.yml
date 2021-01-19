@@ -1,5 +1,5 @@
 ---
-- hosts: CPMgmtServer
+- hosts: localhost
   collections:
   - check_point.mgmt
   - check_point.gaia
