@@ -69,5 +69,5 @@
       RoutesSqlResults: RoutesResult
         
   - debug:
-      msg: "{{ item.primaryCmaIP }}"
-    with_items: "{{Fw2CmaResult.query_result}}"
+      msg: "{{ item }}"
+    with_items: "{{Fw2CmaResult}}"
