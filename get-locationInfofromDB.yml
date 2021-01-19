@@ -6,18 +6,63 @@
   - check_point.gaia
   
   tasks:      
-  - name: Select query
+  - name: Get Data from Location Table
+    mysql_query:
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select cty,ccn,locationNr,description,baseIP,baseIP1,lsmProfile,profileGroup,numberofFWs,nameFW1,nameFW2,nameCL from location where locationNr="{{LocationNr}}"
+    register: LocationResult
+ 
+  - name: Get Data from CMA Table for FW1
+    mysql_query:
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result.nameFW1}}"
+    register: Fw1CmaResult
+
+  - name: Get Data from CMA Table for FW2
+    mysql_query:
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result.nameFW2}}"
+    register: Fw2CmaResult
+
+  - name: Get Data from CMA Table for Cluster
+    mysql_query:
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where Gateway="{{LocationResult.query_result.nameCL}}"
+    register: ClusterCmaResult
+
+  - name: Get Data from Net Table
     mysql_query:
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
       query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,vrrpIP,ipFW1,ipFW2,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,ipHelperCPPM1,ipHelperCPPM2,speed,duplex from net where locationNr="{{LocationNr}}"
-    register: sqlResult
-  
+    register: NetResult
+
+  - name: Get Data from Net Table
+    mysql_query:
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select ccn,locationNr,ipNet,nextHop,description from routes where locationNr="{{LocationNr}}"
+    register: RoutesResult
+
   - set_fact:
-    sqlResults: sqlResult
-    
+    NetsqlResults: NetResult
+    LocationSqlResults: LocationResult
+    FW1CmaSqlResults: Fw1CmaResult
+    FW2CmaSqlResults: Fw2CmaResult
+    ClusterCmaSqlResults: ClusterCmaResult
+    RoutesSqlResults: RoutesResult
+        
   - debug:
-      msg: "{{ item.dynObj }}"
-    with_items: "{{sqlResults.query_result}}"
+      msg: "{{ item.primaryCmaIP }}"
+    with_items: "{{Fw2CmaResult.query_result}}"
 
