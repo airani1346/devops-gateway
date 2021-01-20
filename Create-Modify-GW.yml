@@ -9,4 +9,4 @@
   tasks:      
   - debug:
       msg: "{{ item.netIP }}"
-    with_items: "{{ NetResult.query_result}}"
+    with_items: "{{ NetsqlResults.query_result}}"
