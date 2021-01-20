@@ -77,16 +77,4 @@
         ClusterCmaSqlResults: "{{ClusterCmaResult}}"
         NetsqlResults: "{{NetResult}}"
         RoutesSqlResults: "{{RoutesResult}}"
-        
-#  - name: store facts into global Variables
-#    set_fact:
-#      LocationSqlResults: "{{LocationResult}}"
-#      FW1CmaSqlResults: "{{Fw1CmaResult}}"
-#      FW2CmaSqlResults: "{{Fw2CmaResult}}"
-#      ClusterCmaSqlResults: "{{ClusterCmaResult}}"
-#      NetsqlResults: "{{NetResult}}"
-#      RoutesSqlResults: "{{RoutesResult}}"     
-#  - debug:
-#      msg: "{{ item.netIP }}"
-#    with_items: "{{ NetsqlResults.query_result}}"
     
