@@ -21,47 +21,55 @@
         fingerprint: "{{mgmt_fingerprint}}"
     register: login_response
     
-  - name: "add simple-gateway"
+#  - name: "add simple-gateway"
+#    check_point_mgmt:
+#      command: add-simple-gateway
+#      parameters:
+#        name: "{{ gwArr.name }}"
+#        #color "yellow"
+#        ipv4-address: "{{ gwArr.eth0_ip }}"
+#        version: "{{ gwArr.version }}"
+#        one-time-password: "{{ gwArr.sic_pwd }}"
+#        firewall: "true"
+#        vpn: "true"
+#        # application-control true
+#        # url-filtering true
+#        # ips true
+#        # anti-bot true
+#        # anti-virus true
+#        # threat-emulation true
+#        ### ###
+#        interfaces:
+#        - name: eth0
+#          ipv4-address: "{{ gwArr.eth0_ip }}"
+#          ipv4-network-mask: "{{ gwArr.eth0_netmask }}"
+#          topology: "Internal"
+#          anti-spoofing: "true"
+#          topology-settings:
+#            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
+#        - name: eth1
+#          ipv4-address: "{{ gwArr.eth1_ip }}"
+#          ipv4-network-mask: "{{ gwArr.eth1_netmask }}"
+#          topology: "External"
+#          anti-spoofing: "true"
+#        - name: eth2
+#          ipv4-address: "{{ gwArr.eth2_ip }}"
+#          ipv4-network-mask: "{{ gwArr.eth2_netmask }}"
+#          topology: Internal
+#          anti-spoofing: "true"
+#          topology-settings:
+#            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
+#      session-data: "{{login_response}}"
+#    register: add_gw_response
+#    ignore_errors: true
+  - name: add Test Host
     check_point_mgmt:
-      command: add-simple-gateway
+      command: add.host
       parameters:
-        name: "{{ gwArr.name }}"
-        #color "yellow"
-        ipv4-address: "{{ gwArr.eth0_ip }}"
-        version: "{{ gwArr.version }}"
-        one-time-password: "{{ gwArr.sic_pwd }}"
-        firewall: "true"
-        vpn: "true"
-        # application-control true
-        # url-filtering true
-        # ips true
-        # anti-bot true
-        # anti-virus true
-        # threat-emulation true
-        ### ###
-        interfaces:
-        - name: eth0
-          ipv4-address: "{{ gwArr.eth0_ip }}"
-          ipv4-network-mask: "{{ gwArr.eth0_netmask }}"
-          topology: "Internal"
-          anti-spoofing: "true"
-          topology-settings:
-            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
-
-        - name: eth1
-          ipv4-address: "{{ gwArr.eth1_ip }}"
-          ipv4-network-mask: "{{ gwArr.eth1_netmask }}"
-          topology: "External"
-          anti-spoofing: "true"
-        - name: eth2
-          ipv4-address: "{{ gwArr.eth2_ip }}"
-          ipv4-network-mask: "{{ gwArr.eth2_netmask }}"
-          topology: Internal
-          anti-spoofing: "true"
-          topology-settings:
-            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
+        name: "test-123"
+        ip-address: '1.1.1.1'
+        color: "red"
       session-data: "{{login_response}}"
-    register: add_gw_response
     ignore_errors: true
     
   - name: "publish"
