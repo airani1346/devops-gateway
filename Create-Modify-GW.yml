@@ -1,6 +1,6 @@
 ---
 - name: Check Point Tasks
-  hosts: check_point
+  hosts: CPMgmtServer
   connection: httpapi
   collections:
     - check_point.mgmt
