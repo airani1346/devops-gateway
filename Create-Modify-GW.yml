@@ -1,25 +1,19 @@
 ---
-- hosts: localhost  # put localhost.  We are processing against aws
-  connection: local  # put local.  We are processing against aws
-  gather_facts: False  # don't gather facts against localhost 
+- name: Check Point Tasks
+  hosts: check_point
+  connection: httpapi
   collections:
-  - check_point.mgmt
-  - check_point.gaia
-  
-  tasks:      
-  #- debug:
-  #    msg: "{{ item.netIP }}"
-  #  with_items: "{{ NetsqlResults.query_result}}"
-  - name: "login"
-    check_point_mgmt:
-      command: login
-      parameters:
-        domain: "{{cma}}"
-        management: "{{mgmt_server}}"
-        username: "{{mgmt_user}}"
-        password: "{{mgmt_password}}"
-        fingerprint: "{{mgmt_fingerprint}}"
-    register: login_response
+    - check_point.mgmt
+
+  tasks:
+    - name: task to have network
+      cp_mgmt_network:
+        name: "network1 name"
+        subnet: "22.1.76.0"
+        mask_length: 24
+
+    - name: Publish
+      cp_mgmt_publish:
     
 #  - name: "add simple-gateway"
 #    check_point_mgmt:
@@ -62,25 +56,4 @@
 #      session-data: "{{login_response}}"
 #    register: add_gw_response
 #    ignore_errors: true
-  - name: add Test Host
-    check_point_mgmt:
-      command: add.host
-      parameters:
-        name: "test-123"
-        ip-address: '1.1.1.1'
-        color: "red"
-      session-data: "{{login_response}}"
-    ignore_errors: true
     
-  - name: "publish"
-    check_point_mgmt:
-      command: publish
-      session-data: "{{login_response}}"
-    ignore_errors: true
-    register: publish_response
-    
-  - name: "logout"
-    check_point_mgmt:
-      command: logout
-      session-data: "{{login_response}}"
-    ignore_errors: true
