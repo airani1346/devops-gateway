@@ -7,8 +7,8 @@
 
   tasks:
 
-  - name: My task
-    become: true
+#  - name: My task
+#    become: true
 
   - name: login to mgmt
     check_point_mgmt:
