@@ -19,7 +19,7 @@
 #        name: {{item.nameFW1}}
 #        state: present
     - debug: 
-        msg: "{{item.baseIP1}}"
+        msg: "{{item}}"
       with_items: "{{FW1CmaSqlResults.results}}"
 
 #    - debug: 
