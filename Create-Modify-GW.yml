@@ -17,7 +17,7 @@
         ip_address: {{item.baseIP1}}
         name: {{item.nameFW1}}
         state: present
-      with_items: {{FW1CmaSqlResults.query_results}}
+      with_items: {{FW1CmaSqlResults.query_result}}
 
 #    - name: set-simple-gateway
 #      cp_mgmt_simple_gateway:
