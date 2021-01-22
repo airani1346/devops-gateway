@@ -14,7 +14,8 @@
 #        mask_length: 24
 
     - name: Set stats
-      set_fact: FWName: "{{item.nameFW}}"
+      set_fact: 
+        FWName: "{{item.nameFW}}"
       with_items: "{{LocationSqlResults.query_result}}"  
         
     - name: add-simple-gateway
