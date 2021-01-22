@@ -14,41 +14,17 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select cty,ccn,locationNr,description,baseIP,baseIP1,lsmProfile,profileGroup,numberofFWs,nameFW1,nameFW2,nameCL from location where locationNr="{{LocationNr}}"
+      query: select cty,ccn,locationNr,description,MgmtIP,MgmtIP-mask,lsmProfile,profileGroup,numberofFWs,nameFW,cluster from location where locationNr="{{LocationNr}}"
     register: LocationResult
     
-  - name: Get Data from CMA Table for FW1
+  - name: Get Data from CMA Table
     mysql_query:
       login_host: "{{MysqlServer}}"
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP 
-             from cma where Gateway='"{{item.nameFW1}}"'
-    with_items: "{{LocationResult.query_result}}"
-    register: Fw1CmaResult
-
-  - name: Get Data from CMA Table for FW2
-    mysql_query:
-      login_host: "{{MysqlServer}}"
-      login_db: fwinstall
-      login_user: "{{login_user}}"
-      login_password: "{{login_password}}"
-      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP 
-             from cma where Gateway='"{{item.nameFW2}}"'
-    with_items: "{{LocationResult.query_result}}"
-    register: Fw2CmaResult
-
-  - name: Get Data from CMA Table for Cluster
-    mysql_query:
-      login_host: "{{MysqlServer}}"
-      login_db: fwinstall
-      login_user: "{{login_user}}"
-      login_password: "{{login_password}}"
-      query: select profileID,lsmProfile,Gateway,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP 
-             from cma where Gateway='"{{item.nameCL}}"'
-    with_items: "{{LocationResult.query_result}}"
-    register: ClusterCmaResult
+      query: select ccn,LocationNr,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where locationNr="{{LocationNr}}"
+    register: CmaResult
 
   - name: Get Data from Net Table
     mysql_query:
@@ -72,9 +48,7 @@
     set_stats:
       data:
         LocationSqlResults: "{{LocationResult}}"
-        FW1CmaSqlResults: "{{Fw1CmaResult}}"
-        FW2CmaSqlResults: "{{Fw2CmaResult}}"
-        ClusterCmaSqlResults: "{{ClusterCmaResult}}"
+        CmaSqlResults: "{{CmaResult}}"
         NetsqlResults: "{{NetResult}}"
         RoutesSqlResults: "{{RoutesResult}}"
     
