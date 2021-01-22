@@ -20,7 +20,7 @@
 #        state: present
     - debug: 
         msg: "{{item}}"
-      with_items: "{{FW1CmaSqlResults.results}}"
+      with_items: "{{NetsqlResults.results}}"
 
 #    - debug: 
 #        var: FW1CmaSqlResults
