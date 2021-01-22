@@ -23,7 +23,7 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select ccn,LocationNr,primaryCmaName,primaryCmaIP,,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where locationNr="{{LocationNr}}"
+      query: select ccn,LocationNr,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where locationNr="{{LocationNr}}"
     register: CmaResult
 
   - name: Get Data from Net Table
