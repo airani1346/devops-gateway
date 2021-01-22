@@ -6,12 +6,18 @@
     - check_point.mgmt
 
   tasks:
-    - name: task to have network
-      cp_mgmt_network:
-        name: "network1 name"
-        subnet: "22.1.76.0"
-        mask_length: 24
+#    - name: task to have network
+#      cp_mgmt_network:
+#        name: "network1 name"
+#        subnet: "22.1.76.0"
+#        mask_length: 24
 
+    - name: add-simple-gateway
+      cp_mgmt_simple_gateway:
+        ip_address: 192.0.2.1
+        name: 
+        state: present
+        
     - name: Publish
       cp_mgmt_publish:
     
