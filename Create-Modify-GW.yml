@@ -18,12 +18,12 @@
 #        ip_address: {{item.baseIP1}}
 #        name: {{item.nameFW1}}
 #        state: present
-#    - debug: 
-#        msg: "{{item.baseIP1}}"
-#      with_items: "{{FW1CmaSqlResults.query_result}}"
-
     - debug: 
-        var: FW1CmaSqlResults
+        msg: "{{item.baseIP1}}"
+      with_items: "{{FW1CmaSqlResults.results.item}}"
+
+#    - debug: 
+#        var: FW1CmaSqlResults
      
 #    - name: set-simple-gateway
 #      cp_mgmt_simple_gateway:
