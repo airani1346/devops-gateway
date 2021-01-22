@@ -38,7 +38,7 @@
         url_filtering: true
         state: present
         interfaces: 
-        - name: {{item.interface}}
+        - name: "{{item.interface}}"
           ipv4-address: "{{ item.FWIP }}"
           ipv4_mask_length: "{{ item.masklen }}"
           topology: "Internal"
