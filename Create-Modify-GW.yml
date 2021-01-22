@@ -53,7 +53,6 @@
       with_items: "{{NetsqlResults.query_result}}"
       when: 
         - item.FWIP != '' 
-        - item.FWIP != Null
 
     - name: Publish
       cp_mgmt_publish:
