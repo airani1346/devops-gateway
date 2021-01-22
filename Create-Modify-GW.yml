@@ -15,12 +15,14 @@
 
 #    - name: add-simple-gateway
 #      cp_mgmt_simple_gateway:
-#        ip_address: {{item.baseIP1}}
-#        name: {{item.nameFW1}}
+#        ip_address: {{item.MgmtIP}}
+#        name: {{item.nameFW}}
 #        state: present
+      
     - debug: 
-        msg: "{{item.ipFW1}}"
-      with_items: "{{NetsqlResults.query_result}}"
+        msg: "{{item.nameFW}} {{item.MgmtIP}}"
+      with_items: "{{LocationSqlResults.query_result}}"
+      
 
 #    - debug: 
 #        var: FW1CmaSqlResults
