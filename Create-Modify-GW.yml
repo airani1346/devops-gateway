@@ -2,6 +2,7 @@
 - name: Check Point Tasks
   hosts: CPMgmtServer
   connection: httpapi
+  gather_facts: False
   collections:
     - check_point.mgmt
 
