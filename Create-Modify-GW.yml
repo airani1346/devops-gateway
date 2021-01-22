@@ -33,7 +33,7 @@
         anti_virus: true
         application_control: true
         ips: true
-        name: test_gateway
+        name: "{{item.nameFW}}"
         threat_emulation: true
         url_filtering: true
         state: present
