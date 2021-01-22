@@ -20,7 +20,7 @@
 #        state: present
     - debug: 
         msg: "{{item.baseIP1}}"
-      with_items: "{{FW1CmaSqlResults.results.item}}"
+      with_items: "{{FW1CmaSqlResults.results}}"
 
 #    - debug: 
 #        var: FW1CmaSqlResults
