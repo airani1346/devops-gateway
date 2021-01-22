@@ -13,10 +13,16 @@
 #        subnet: "22.1.76.0"
 #        mask_length: 24
 
+    - name: Set stats
+      set_stats:
+        data:
+          FWName: "{{item.nameFW}}"
+      with_items: "{{LocationSqlResults.query_result}}"  
+        
     - name: add-simple-gateway
       cp_mgmt_simple_gateway:
         ip_address: "{{item.MgmtIP}}"
-        name: "{{item.nameFW}}"
+        name: "{{FWName}}"
         state: present
       with_items: "{{LocationSqlResults.query_result}}"
       
@@ -33,7 +39,7 @@
         anti_virus: true
         application_control: true
         ips: true
-        name: "{{item.nameFW}}"
+        name: "{{FWName}}"
         threat_emulation: true
         url_filtering: true
         state: present
