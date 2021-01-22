@@ -52,7 +52,7 @@
             ip-address-behind-this-interface: "network defined by the interface ip and net mask"
       with_items: "{{NetsqlResults.query_result}}"
       when: 
-        - item.FWIP != '' 
+        - item.FWIP != None 
 
     - name: Publish
       cp_mgmt_publish:
