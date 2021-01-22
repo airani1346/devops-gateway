@@ -19,7 +19,7 @@
 #        name: {{item.nameFW1}}
 #        state: present
     - debug: 
-        msg: "{{item}}"
+        msg: "{{item.ipFW1}}"
       with_items: "{{NetsqlResults.query_result}}"
 
 #    - debug: 
