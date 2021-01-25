@@ -1,0 +1,114 @@
+---
+- name: Check Point Tasks
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: Set stats
+      set_fact: 
+        URLstart: "https://{{mgmt_server}}/web_api"
+
+    - name: login to Server
+      uri:
+        method: post
+        url: "{{URLstart}}/login"
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+        body: 
+          user = 'admin'
+          password" = 'vpn123'
+      register: login_response
+
+    - name: login to Server
+      uri:
+        method: post
+        url: "{{URLstart}}/logout"
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+        body: "{{login_response}}"
+
+
+ 
+#    - name: Set stats
+#      set_fact: 
+#        FWName: "{{item.nameFW}}"
+#      with_items: "{{LocationSqlResults.query_result}}"  
+        
+#    - name: add-simple-gateway
+#      cp_mgmt_simple_gateway:
+#        ip_address: "{{item.MgmtIP}}"
+#        name: "{{FWName}}"
+#        state: present
+#      with_items: "{{LocationSqlResults.query_result}}"
+          
+#    - name: set-simple-gateway
+#      cp_mgmt_simple_gateway:
+#        anti_bot: true
+#        anti_virus: true
+#        application_control: true
+#        ips: true
+#        name: "{{FWName}}"
+#        threat_emulation: true
+#        url_filtering: true
+#        state: present
+#        interfaces: 
+#        - name: "{{item.interface}}"
+#          ipv4-address: "{{ item.FWIP }}"
+#          ipv4_mask_length: "{{ item.masklen }}"
+#          topology: "Internal"
+#          anti-spoofing: "true"
+#          topology-settings:
+#            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
+#          with_items: "{{NetsqlResults.query_result |to_json}}"
+#          when: 
+#            - item.FWIP != None 
+#
+#    - name: Publish
+#      cp_mgmt_publish:
+    
+#  - name: "add simple-gateway"
+#    check_point_mgmt:
+#      command: add-simple-gateway
+#      parameters:
+#        name: "{{ gwArr.name }}"
+#        #color "yellow"
+#        ipv4-address: "{{ gwArr.eth0_ip }}"
+#        version: "{{ gwArr.version }}"
+#        one-time-password: "{{ gwArr.sic_pwd }}"
+#        firewall: "true"
+#        vpn: "true"
+#        # application-control true
+#        # url-filtering true
+#        # ips true
+#        # anti-bot true
+#        # anti-virus true
+#        # threat-emulation true
+#        ### ###
+#        interfaces:
+#        - name: eth0
+#          ipv4-address: "{{ gwArr.eth0_ip }}"
+#          ipv4-network-mask: "{{ gwArr.eth0_netmask }}"
+#          topology: "Internal"
+#          anti-spoofing: "true"
+#          topology-settings:
+#            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
+#        - name: eth1
+#          ipv4-address: "{{ gwArr.eth1_ip }}"
+#          ipv4-network-mask: "{{ gwArr.eth1_netmask }}"
+#          topology: "External"
+#          anti-spoofing: "true"
+#        - name: eth2
+#          ipv4-address: "{{ gwArr.eth2_ip }}"
+#          ipv4-network-mask: "{{ gwArr.eth2_netmask }}"
+#          topology: Internal
+#          anti-spoofing: "true"
+#          topology-settings:
+#            ip-address-behind-this-interface: "network defined by the interface ip and net mask"
+#      session-data: "{{login_response}}"
+#    register: add_gw_response
+#    ignore_errors: true
