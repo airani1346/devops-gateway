@@ -29,7 +29,7 @@
         headers:
           Accept: application/json
         body: {
-               'user': "{{mgmt_user}}",
+               'user': "{{mgmt_username}}",
                'password': "{{mgmt_password}}"
                }
       register: login_response
