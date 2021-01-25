@@ -50,8 +50,8 @@
           Accept: application/json
           x-chkp-sid : "{{sid}}"
         body: {
-                 'name' : {{FWName}},
-                 'ip-address' : {{MgmtIP}}
+                 'name' : "{{FWName}}",
+                 'ip-address' : "{{MgmtIP}}"
               }
       
     - name: Initiate User List
