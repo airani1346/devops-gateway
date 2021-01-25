@@ -26,14 +26,14 @@
       query: select ccn,LocationNr,primaryCmaName,primaryCmaIP,secondaryCmaName,secondaryCmaIP,logCmaName,logCmaIP from cma where locationNr="{{LocationNr}}"
     register: CmaResult
 
-  - name: Get Data from Net Table
-    mysql_query:
-      login_host: "{{MysqlServer}}"
-      login_db: fwinstall
-      login_user: "{{login_user}}"
-      login_password: "{{login_password}}"
-      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,member{{MemberID}} as FWIP,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,speed,duplex from net where locationNr="{{LocationNr}}"
-    register: NetResult
+#  - name: Get Data from Net Table
+#    mysql_query:
+#      login_host: "{{MysqlServer}}"
+#      login_db: fwinstall
+#      login_user: "{{login_user}}"
+#      login_password: "{{login_password}}"
+#      query: select ccn,locationNr,vlan,interface,physicalInt,description,netIP,member{{MemberID}} as FWIP,broadcastIP,masklen,dynObj,ipHelper1,ipHelper2,speed,duplex from net where locationNr="{{LocationNr}}"
+#    register: NetResult
 
   - name: Get Data from Net Table
     mysql_query:
@@ -47,13 +47,13 @@
              from location left JOIN net ON location.locationNr = net.LocationNr
              where (location.locationNr={{LocationNr}}) and (location.MemberID = {{MemberID}})
              order by net.vlan
-    register: RoutesResult
+    register: NetworkResult
 
   - name: Set stats
     set_stats:
       data:
         LocationSqlResults: "{{LocationResult}}"
         CmaSqlResults: "{{CmaResult}}"
-        NetsqlResults: "{{NetResult}}"
-        RoutesSqlResults: "{{RoutesResult}}"
+#        NetsqlResults: "{{NetResult}}"
+        NetworkSqlResults: "{{NetworkResult}}"
     
