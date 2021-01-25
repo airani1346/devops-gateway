@@ -1,0 +1,71 @@
+---
+- name: Check Point Tasks
+  hosts: CPMgmtServer
+  connection: httpapi
+  gather_facts: False
+  collections:
+    - check_point.mgmt
+
+  tasks:
+    - name: Set stats FWName
+      set_fact:
+        FWName: "{{item.nameFW}}"
+      no_log: true
+      with_items: "{{LocationResult.query_result}}"
+
+
+    - name: Set stats FW Mgmt IP
+      set_fact:
+        MgMtIP: "{{item.MgmtIP}}"
+      no_log: true
+      with_items: "{{LocationResult.query_result}}"
+
+    - name: Initiate User List
+      set_fact:
+        interf: []
+           
+    - name: Add new JSON Objects to List
+      set_fact:
+        interf: "{{ interf + [{
+                               'name': item.interface,
+                               'interface-type' : "cluster + sync",
+                               'ipv4-address':  item.FWIP,
+                               'ipv4-mask_length': item.masklen,
+                               'topology': 'Internal',
+                               'anti_spoofing': 'true',
+                               'anti-spoofing-settings' : {
+		                                  	'action' : 'prevent'
+		                           }
+                               'topology_settings': {
+                                   'ip_address_behind_this_interface': 'network defined by the interface ip and net mask'
+                                                    }
+                              }]
+                 }}"
+      no_log: true
+      with_items: "{{RoutesResult.query_result}}"
+      when:
+        - item.FWIP != None
+
+    - name: Cluater
+      cp_mgmt_simple_gateway:
+        ip_address: "{{MgMtIP}}"
+        name: "{{FWName}}"
+        version : "R80.40"
+        os-name : 'Gaia'
+        cluster-mode : 'cluster-xl-ha'
+        state: present
+        anti_bot: true
+        anti_virus: true
+        application_control: true
+        ips: true
+        threat_emulation: true
+        url_filtering: true
+        vpn : false
+        interfaces:  "{{interf}}"
+      ignore_errors: true
+      
+    - name: Publish
+      cp_mgmt_publish:
+    
+
+    
