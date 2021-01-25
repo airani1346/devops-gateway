@@ -43,7 +43,7 @@
       login_password: "{{login_password}}"
       query: select 
              location.cty,location.ccn,location.locationNr,location.description,location.MgmtIP,location.MgmtIPmask,location.lsmProfile,location.profileGroup,location.numberofFWs,location.nameFW,location.MemberID, 
-             net.vlan as vlan,net.interface,net.physicalInt,net.description,net.netIP,net.Member{{MemberID}} as FWIP,net.broadcastIP,net.masklen,net.dynObj,net.speed,net.duplex
+             net.vlan as vlan,net.interface,net.interface_type,net.physicalInt,net.description,net.netIP,net.Member{{MemberID}} as FWIP,net.broadcastIP,net.masklen,net.dynObj,net.speed,net.duplex
              from location left JOIN net ON location.locationNr = net.LocationNr
              where (location.locationNr={{LocationNr}}) and (location.MemberID = {{MemberID}})
              order by net.vlan
