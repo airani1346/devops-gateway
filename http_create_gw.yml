@@ -98,7 +98,7 @@
                 'ips': true,        
                 'threat_emulation': true,
                 'url_filtering': true,
-                'interfaces': {{interf | to_json}}
+                'interfaces': "{{interf | to_json}}"
                }
                
     - name: Publish changes
