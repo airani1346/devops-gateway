@@ -13,6 +13,7 @@
       uri:
         method: post
         url: "{{URLstart}}/login"
+        validate_certs: no
         return_content: yes
         body_format: json
         headers:
@@ -29,6 +30,7 @@
       uri:
         method: post
         url: "{{URLstart}}/logout"
+        validate_certs: no
         return_content: yes
         body_format: json
         headers:
