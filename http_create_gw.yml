@@ -21,7 +21,10 @@
           user = 'admin'
           password" = 'vpn123'
       register: login_response
-
+      
+    - name: "Print login response"
+      debug: msg={{ login_response }}
+    
     - name: login to Server
       uri:
         method: post
@@ -32,8 +35,6 @@
           Accept: application/json
         body: "{{login_response}}"
 
-
- 
 #    - name: Set stats
 #      set_fact: 
 #        FWName: "{{item.nameFW}}"
