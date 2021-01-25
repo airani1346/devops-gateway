@@ -34,11 +34,11 @@
                                'topology': 'Internal',
                                'anti_spoofing': 'true',
                                'anti-spoofing-settings' : {
-		                                  	'action' : 'prevent'
-		                           }
+                                          'action' : 'prevent'
+                                }
                                'topology_settings': {
                                    'ip_address_behind_this_interface': 'network defined by the interface ip and net mask'
-                                                    }
+                               }
                               }]
                  }}"
       no_log: true
