@@ -28,7 +28,7 @@
       set_fact:
         interf: "{{ interf + [{
                                'name': item.interface,
-                               'interface-type' : "cluster + sync",
+                               'interface-type' : item.interface_type,
                                'ipv4-address':  item.FWIP,
                                'ipv4-mask_length': item.masklen,
                                'topology': 'Internal',
@@ -50,7 +50,7 @@
       cp_mgmt_simple_gateway:
         ip_address: "{{MgMtIP}}"
         name: "{{FWName}}"
-        version : "R80.40"
+        version : "{{GaiaVersion}}"
         os-name : 'Gaia'
         cluster-mode : 'cluster-xl-ha'
         state: present
