@@ -91,14 +91,14 @@
           Accept: application/json
           x-chkp-sid : "{{sid}}"
         body: {
-                name: "{{FWName}}"
-                anti_bot: true
-                anti_virus: true
-                application_control: true
-                ips: true        
-                threat_emulation: true
-                url_filtering: true
-                interfaces: {{interf | to_json}}
+                'name': "{{FWName}}",
+                'anti_bot': true,
+                'anti_virus': true,
+                'application_control': true,
+                'ips': true,        
+                'threat_emulation': true,
+                'url_filtering': true,
+                'interfaces': {{interf | to_json}}
                }
                
     - name: Publish changes
