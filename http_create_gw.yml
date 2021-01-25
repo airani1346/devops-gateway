@@ -57,7 +57,9 @@
     - name: Initiate User List
       set_fact:
         interf: []
-           
+       
+       
+    -
     - name: Add new JSON Objects to List
       set_fact:
         interf: "{{ interf + [{
@@ -67,12 +69,12 @@
                                'ipv4-mask_length': item.masklen,
                                'topology': 'Internal',
                                'anti_spoofing': 'true',
-                               'anti-spoofing-settings' : {
+                               'anti-spoofing-settings' : [{
                                           'action' : 'prevent'
-                                }
-                               'topology_settings': {
+                                }]
+                               'topology_settings': [{
                                    'ip_address_behind_this_interface': 'network defined by the interface ip and net mask'
-                               }
+                               }]
                               }]
                  }}"
       with_items: "{{NetworkSqlResults.query_result}}"
