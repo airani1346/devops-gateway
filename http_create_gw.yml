@@ -9,15 +9,30 @@
       set_fact: 
         URLstart: "https://{{mgmt_server}}/web_api"
 
-    - name: Set stats
-      set_fact: 
-        FWName: "{{item.nameFW}}"
-      with_items: "{{LocationSqlResults.query_result}}"  
     
     - name: Set stats
       set_fact: 
+        FWName: "{{item.nameFW}}"
+      with_items: "{{Member1LocationSqlResults.query_result}}"  
+      when: MemberID == '1'
+
+    - name: Set stats
+      set_fact: 
+        FWName: "{{item.nameFW}}"
+      with_items: "{{Member2LocationSqlResults.query_result}}"  
+      when: MemberID == '2'
+      
+    - name: Set stats
+      set_fact: 
         MgmtIP: "{{item.MgmtIP}}"
-      with_items: "{{LocationSqlResults.query_result}}"
+      with_items: "{{Member1LocationSqlResults.query_result}}"
+      when: MemberID == '1'
+
+    - name: Set stats
+      set_fact: 
+        MgmtIP: "{{item.MgmtIP}}"
+      with_items: "{{Member2LocationSqlResults.query_result}}"
+      when: MemberID == '2'
 
     - name: login to Server
       uri:
@@ -29,8 +44,8 @@
         headers:
           Accept: application/json
         body: {
-               'user': "admin",
-               'password': "vpn123"
+               'user': "{{mgmt_username}}",
+               'password': "{{mgmt_password}}"
                }
       register: login_response
 
