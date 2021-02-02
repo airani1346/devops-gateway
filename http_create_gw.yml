@@ -19,114 +19,139 @@
         MgmtIP: "{{item.MgmtIP}}"
       with_items: "{{LocationSqlResults.query_result}}"
 
-#    - name: login to Server
-#      uri:
-#        method: post
-#        url: "{{URLstart}}/login"
-#        validate_certs: no
-#        return_content: yes
-#        body_format: json
-#        headers:
-#          Accept: application/json
-#        body: {
-#               'user': "{{mgmt_username}}",
-#               'password': "{{mgmt_password}}"
-#               }
-#      register: login_response
+    - name: login to Server
+      uri:
+        method: post
+        url: "{{URLstart}}/login"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+        body: {
+               'user': "admin",
+               'password': "vpn123"
+               }
+      register: login_response
 
-#    - name: Set stats sid
-#      set_fact:
-#        sid: "{{item}}"
-#      with_items: "{{ login_response.json.sid}}"
+    - name: Set stats sid
+      set_fact:
+        sid: "{{item}}"
+      with_items: "{{ login_response.json.sid}}"
+      no_log: true
+
+    - name: check if Gateway exists
+      uri:
+        method: post
+        url: "{{URLstart}}/show-simple-gateway"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+                'name' : "{{FWName}}",
+              }
+      ignore_errors: true
+      no_log: true
+      register: check_if_existing_gateway
+
+    - name: Set stats gwid
+      set_fact:
+        gwuid: "{{item}}"
+      with_items: "{{ check_if_existing_gateway.json.uid}}"
+      ignore_errors: true
+
+    - name: add-simple-gateway
+      uri:
+        method: post
+        url: "{{URLstart}}/add-simple-gateway"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+                'name' : "{{FWName}}",
+                'ip-address' : "{{MgmtIP}}"
+              }
+      ignore_errors: true
+      when: gwuid == ""
       
-#    - name: add-simple-gateway
-#      uri:
-#        method: post
-#        url: "{{URLstart}}/add-simple-gateway"
-#        validate_certs: no
-#        return_content: yes
-#        body_format: json
-#        headers:
-#          Accept: application/json
-#          x-chkp-sid : "{{sid}}"
-#        body: {
-#                 'name' : "{{FWName}}",
-#                 'ip-address' : "{{MgmtIP}}"
-#              }
-      
-    - name: Initiate User List
+    - name: Initiate Interface List
       set_fact:
         interf: []
        
-       
-    - debug:
-        msg: "#### {{item.interface}}#### {{item.interface_type}}#### {{item.FWIP}}#### {{item.masklen}}"
-      with_items: "{{NetworkSqlResults.query_result}}"
+    - name: Add new JSON Objects to List
+      set_fact:
+        interf: "{{ interf + 
+                    [{
+                         'name'             : item.interface,
+                         'ipv4-address'     : item.FWIP,
+                         'ipv4-mask-length' : item.masklen,
+                         'topology'         : 'Internal',
+                         'anti-spoofing'    : 'true',
+                         'anti-spoofing-settings' : {   
+                           'action' : 'prevent'
+                         },
+                         'topology-settings': {
+                           'ip-address-behind-this-interface': 'network defined by the interface ip and net mask'
+                         }
+                    }]                         
+                 }}"
+      with_items: "{{RoutesResult.query_result}}"
+      no_log: true
       when:
         - item.FWIP != None
+
+    - name: set-simple-gateway
+      uri:
+        method: post
+        url: "{{URLstart}}/set-simple-gateway"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+                'name': "{{FWName}}",
+                'anti-bot': true,
+                'anti-virus': true,
+                'application-control': true,
+                'ips': true,        
+                'threat-emulation': true,
+                'url-filtering': true,
+                'interfaces': "{{interf}}"
+              }
+#      no_log: true
+      ignore_errors: true
+      
+
+    - name: Publish changes
+      uri:
+        method: post
+        url: "{{URLstart}}/publish"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+              }
     
-#    - name: Add new JSON Objects to List
-#      set_fact:
-#        interf: "{{ interf + [{
-#                               'name': item.interface,
-#                               'interface-type' : item.interface_type,
-#                               'ipv4-address':  item.FWIP,
-#                               'ipv4-mask_length': item.masklen,
-#                               'topology': 'Internal',
-#                               'anti_spoofing': 'true',
-#                               'anti-spoofing-settings' : {
-#                                                            'action' : 'prevent'
-#                                                          }
-#                               'topology_settings': {
-#                                                      'ip_address_behind_this_interface': 'network defined by the interface ip and net mask'
-#                                                    }
-#                              }]
-#                 }}"
-#      with_items: "{{NetworkSqlResults.query_result}}"
-#      when:
-#        - item.FWIP != None
-        
-#    - name: add-simple-gateway
-#      uri:
-#        method: post
-#        url: "{{URLstart}}/add-simple-gateway"
-#        validate_certs: no
-#        return_content: yes
-#        body_format: json
-#        headers:
-#          Accept: application/json
-#          x-chkp-sid : "{{sid}}"
-#        body: {
-#                'name': "{{FWName}}",
-#                'anti_bot': true,
-#                'anti_virus': true,
-#                'application_control': true,
-#                'ips': true,        
-#                'threat_emulation': true,
-#                'url_filtering': true,
-#                'interfaces': "{{interf | to_json}}"
-#               }
-               
-#    - name: Publish changes
-#      uri:
-#        method: post
-#        url: "{{URLstart}}/publish"
-#        validate_certs: no
-#        return_content: yes
-#        body_format: json
-#        headers:
-#          Accept: application/json
-#          x-chkp-sid : "{{sid}}"
-#        body: {}
-    
-#    - name: logout to Server
-#      uri:
-#        method: post
-#        url: "{{URLstart}}/logout"
-#        validate_certs: no
-#        return_content: yes
-#        body_format: json
-#        headers:
-#          Accept: application/json
-#          x-chkp-sid : "{{sid}}"
-#        body: {}
+    - name: logout to Server
+      uri:
+        method: post
+        url: "{{URLstart}}/logout"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+              }
