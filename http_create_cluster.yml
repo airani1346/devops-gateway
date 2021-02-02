@@ -12,12 +12,22 @@
     - name: Set stats
       set_fact: 
         ClusterName: "{{item.nameFW}}"
-      with_items: "{{LocationSqlResults.query_result}}"  
+      with_items: "{{ClusterLocationSqlResults.query_result}}"  
     
     - name: Set stats
       set_fact: 
         MgmtIP: "{{item.MgmtIP}}"
-      with_items: "{{LocationSqlResults.query_result}}"
+      with_items: "{{ClusterLocationSqlResults.query_result}}"
+
+    - name: Set stats
+      set_fact: 
+        Member1Name: "{{item.nameFW}}"
+      with_items: "{{Member1LocationSqlResults.query_result}}"  
+
+    - name: Set stats
+      set_fact: 
+        Member2Name: "{{item.nameFW}}"
+      with_items: "{{Member2LocationSqlResults.query_result}}"  
 
     - name: login to Server
       uri:
@@ -29,8 +39,8 @@
         headers:
           Accept: application/json
         body: {
-               'user': "admin",
-               'password': "vpn123"
+               'user': "{{mgmt_username}}",
+               'password': "{{mgmt_password}}"
                }
       register: login_response
 
@@ -91,6 +101,7 @@
                          'name'             : item.interface,
                          'ipv4-address'     : item.FWIP,
                          'ipv4-mask-length' : item.masklen,
+                         'interface-type'   : item.intType,
                          'topology'         : 'Internal',
                          'anti-spoofing'    : 'true',
                          'anti-spoofing-settings' : {   
@@ -106,6 +117,45 @@
       when:
         - item.FWIP != None
 
+# ########################################################################
+    - name: Initiate Members List
+      set_fact:
+        Members: []
+        
+    - name: Add member1 to dictonary
+      set_fact:
+        Members: "{{ Members + 
+                    [{
+                         'name'             : item.interface,
+                         'ipv4-address'     : item.FWIP,
+                         'ipv4-mask-length' : item.masklen,
+                         "one-time-password" : "abcd",
+                         "interfaces" : 
+                    }]                         
+                 }}"
+      with_items: "{{RoutesResult.query_result}}"
+      no_log: true
+      when:
+        - item.FWIP != None
+        
+        
+    - name: Add member2 to dictonary
+      set_fact:
+        Members: "{{ Members + 
+                    [{
+                         'name'             : item.interface,
+                         'ipv4-address'     : item.FWIP,
+                         'ipv4-mask-length' : item.masklen,
+                         "one-time-password" : "abcd",
+                         "interfaces" : 
+                    }]                         
+                 }}"
+      with_items: "{{RoutesResult.query_result}}"
+      no_log: true
+      when:
+        - item.FWIP != None
+
+# ########################################################################
     - name: set-simple-cluster
       uri:
         method: post
