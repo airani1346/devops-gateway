@@ -11,7 +11,7 @@
 
     - name: Set stats
       set_fact: 
-        FWName: "{{item.nameFW}}"
+        ClusterName: "{{item.nameFW}}"
       with_items: "{{LocationSqlResults.query_result}}"  
     
     - name: Set stats
@@ -63,7 +63,7 @@
       with_items: "{{ check_if_existing_gateway.json.uid}}"
       ignore_errors: true
 
-    - name: add-simple-gateway
+    - name: add-simple-cluster
       uri:
         method: post
         url: "{{URLstart}}/add-simple-gateway"
@@ -106,7 +106,7 @@
       when:
         - item.FWIP != None
 
-    - name: set-simple-gateway
+    - name: set-simple-cluster
       uri:
         method: post
         url: "{{URLstart}}/set-simple-gateway"
