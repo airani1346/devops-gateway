@@ -174,7 +174,8 @@
                 'ips': true,        
                 'threat-emulation': true,
                 'url-filtering': true,
-                'interfaces': "{{interf}}"
+                'interfaces': "{{interf}}",
+                'members': "{{Members}}"
               }
 #      no_log: true
       ignore_errors: true
