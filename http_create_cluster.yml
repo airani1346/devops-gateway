@@ -1,0 +1,157 @@
+---
+- name: Check Point Tasks
+  hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+    - name: Set stats
+      set_fact: 
+        URLstart: "https://{{mgmt_server}}/web_api"
+
+    - name: Set stats
+      set_fact: 
+        FWName: "{{item.nameFW}}"
+      with_items: "{{LocationSqlResults.query_result}}"  
+    
+    - name: Set stats
+      set_fact: 
+        MgmtIP: "{{item.MgmtIP}}"
+      with_items: "{{LocationSqlResults.query_result}}"
+
+    - name: login to Server
+      uri:
+        method: post
+        url: "{{URLstart}}/login"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+        body: {
+               'user': "admin",
+               'password': "vpn123"
+               }
+      register: login_response
+
+    - name: Set stats sid
+      set_fact:
+        sid: "{{item}}"
+      with_items: "{{ login_response.json.sid}}"
+      no_log: true
+
+    - name: check if Cluster exists
+      uri:
+        method: post
+        url: "{{URLstart}}/show-simple-cluster"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+                'name' : "{{ClusterName}}",
+              }
+      ignore_errors: true
+      no_log: true
+      register: check_if_existing_gateway
+
+    - name: Set stats gwid
+      set_fact:
+        gwuid: "{{item}}"
+      with_items: "{{ check_if_existing_gateway.json.uid}}"
+      ignore_errors: true
+
+    - name: add-simple-gateway
+      uri:
+        method: post
+        url: "{{URLstart}}/add-simple-gateway"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+                'name' : "{{ClusterName}}",
+                'ip-address' : "{{MgmtIP}}"
+              }
+      ignore_errors: true
+      when: gwuid == ""
+      
+    - name: Initiate Interface List
+      set_fact:
+        interf: []
+       
+    - name: Add new JSON Objects to List
+      set_fact:
+        interf: "{{ interf + 
+                    [{
+                         'name'             : item.interface,
+                         'ipv4-address'     : item.FWIP,
+                         'ipv4-mask-length' : item.masklen,
+                         'topology'         : 'Internal',
+                         'anti-spoofing'    : 'true',
+                         'anti-spoofing-settings' : {   
+                           'action' : 'prevent'
+                         },
+                         'topology-settings': {
+                           'ip-address-behind-this-interface': 'network defined by the interface ip and net mask'
+                         }
+                    }]                         
+                 }}"
+      with_items: "{{RoutesResult.query_result}}"
+      no_log: true
+      when:
+        - item.FWIP != None
+
+    - name: set-simple-gateway
+      uri:
+        method: post
+        url: "{{URLstart}}/set-simple-gateway"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+                'name': "{{ClusterName}}",
+                'anti-bot': true,
+                'anti-virus': true,
+                'application-control': true,
+                'ips': true,        
+                'threat-emulation': true,
+                'url-filtering': true,
+                'interfaces': "{{interf}}"
+              }
+#      no_log: true
+      ignore_errors: true
+      
+
+    - name: Publish changes
+      uri:
+        method: post
+        url: "{{URLstart}}/publish"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+              }
+    
+    - name: logout to Server
+      uri:
+        method: post
+        url: "{{URLstart}}/logout"
+        validate_certs: no
+        return_content: yes
+        body_format: json
+        headers:
+          Accept: application/json
+          x-chkp-sid : "{{sid}}"
+        body: {
+              }
