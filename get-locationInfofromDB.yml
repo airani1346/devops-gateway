@@ -4,8 +4,6 @@
 #  gather_facts: False  # don't gather facts against localhost
   collections:
   - community.mysql
-  - check_point.mgmt
-  - check_point.gaia
   
   tasks:
   - name: Get Data from Location Table
@@ -14,9 +12,27 @@
       login_db: fwinstall
       login_user: "{{login_user}}"
       login_password: "{{login_password}}"
-      query: select cty,ccn,locationNr,description,MgmtIP,MgmtIPmask,lsmProfile,profileGroup,numberofFWs,nameFW,MemberID from location where (locationNr="{{LocationNr}}" and MemberID = {{MemberID}})
-    register: LocationResult
-    
+      query: select cty,ccn,locationNr,description,MgmtIP,MgmtIPmask,lsmProfile,profileGroup,numberofFWs,nameFW,MemberID from location where (locationNr="{{LocationNr}}" and MemberID = 0)
+    register: ClusterLocationResult
+
+  - name: Get Data from Location Table
+    mysql_query:
+      login_host: "{{MysqlServer}}"
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select cty,ccn,locationNr,description,MgmtIP,MgmtIPmask,lsmProfile,profileGroup,numberofFWs,nameFW,MemberID from location where (locationNr="{{LocationNr}}" and MemberID = 1)
+    register: Member1LocationResult
+
+  - name: Get Data from Location Table
+    mysql_query:
+      login_host: "{{MysqlServer}}"
+      login_db: fwinstall
+      login_user: "{{login_user}}"
+      login_password: "{{login_password}}"
+      query: select cty,ccn,locationNr,description,MgmtIP,MgmtIPmask,lsmProfile,profileGroup,numberofFWs,nameFW,MemberID from location where (locationNr="{{LocationNr}}" and MemberID = 2)
+    register: Member2LocationResult
+
   - name: Get Data from CMA Table
     mysql_query:
       login_host: "{{MysqlServer}}"
@@ -52,7 +68,9 @@
   - name: Set stats
     set_stats:
       data:
-        LocationSqlResults: "{{LocationResult}}"
+        ClusterLocationSqlResults: "{{ClusterLocationResult}}"
+        Member1LocationSqlResults: "{{Member1LocationResult}}"
+        Member2LocationSqlResults: "{{Member2LocationResult}}"
         CmaSqlResults: "{{CmaResult}}"
 #        NetsqlResults: "{{NetResult}}"
         NetworkSqlResults: "{{NetworkResult}}"
